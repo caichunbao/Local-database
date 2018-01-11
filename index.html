@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.3/css/bootstrap.css" rel="stylesheet">
+  <title>本地存储</title>
+  <style>
+    body{
+      background: #f1f1f1;
+    }
+    .box{
+      border:1px solid #ddd;
+      border-radius:5px;
+      padding:20px 60px;
+      min-height:600px;
+      background:#fff;
+    }
+  </style>
+</head>
+<body>
+  <br>
+  <div class="container box" style="">
+    <br>
+    <p class="h2 text-center">测试页面</p>
+    <br>
+    <div class="save-data" class="form-inline">
+      <div class="form-group">
+        <label>键key:</label>
+        <input type="text" class="form-control" placeholder="存储的键(key)">
+      </div>
+      <div class="form-group">
+        <label>值key:</label>
+        <input type="text" class="form-control" placeholder="存储的值(value)">
+      </div>
+      <div class="form-group">
+        <p class="text-danger btn-sm">注：存储数据，如果存储的键存在，则更新这个数据，删除数据只需添加键key</p>
+      </div>
+      <input type="button" class="btn btn-success" value="save data">
+      <input type="button" class="btn btn-primary" value="show data">
+      <input type="button" class="btn btn-danger" value="delete data">
+      
+    </div>
+    
+    <div class="show-data">
+      <br>
+      <table class="table table-bordered text-center">
+        <thead>
+          <tr>
+            <th class="text-center">键(key)</th>
+            <th class="text-center">值(value)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr>
+            <td>key</td>
+            <td>value</td>
+          </tr> -->
+        </tbody>
+        <tfoot class="text-center">
+          <tr>
+            <td colspan="2">没有数据~~</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <script type="text/javascript" src="./Local-database.js"></script>
+  <script type="text/javascript" src="../practice/jquery/jquery-2.0.3.js"></script>
+  <script type="text/javascript">
+    window.onload = function(){
+
+      //localStorage.clear();
+      // 保存数据
+      localdb.saveData("userInfo",{
+        data:[1,2,3]
+      })
+
+      console.log(localStorage.userInfo)
+      
+      // // 保存用户1信息
+      // localdb.saveData({
+      //   collectionName: "userInfo",
+      //   collectionData:{
+      //     id: 1001,
+      //     username: "Kevin",
+      //     age: 23,
+      //     gender: "男"
+      //   }
+      // })
+
+      // // 保存用户2信息
+      // localdb.saveData({
+      //   collectionName: "userInfo",
+      //   collectionData:{
+      //     id: 1002,
+      //     username: "Jake",
+      //     age: 24,
+      //     gender: "男"
+      //   }
+      // })
+
+      // // 保存用户3信息
+      // localdb.saveData({
+      //   collectionName: "userInfo",
+      //   collectionData:{
+      //     id: 1003,
+      //     username: "lose",
+      //     age: 22,
+      //     gender: "女"
+      //   }
+      // })
+
+      // 修改用户信息
+      // localdb.updateData({
+      //   collectionName: "userInfo",
+      //   collectionData:{
+      //     id: 1001,
+      //     username: "Kevin",
+      //     age: 25,
+      //     gender: "男"
+      //   }
+      // })
+
+      // // 修改用户信息
+      // localdb.updateData({
+      //   collectionName: "userInfo",
+      //   collectionData:{
+      //     id: 1001,
+      //     gender: "女"
+      //   }
+      // })
+
+      // 获取用户信息
+      // var userInfoData = localdb.getData({
+      //   collectionName: "userInfo"
+      // });
+      // console.log(userInfoData)
+      
+
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "package",
+  "version": "1.0.0",
+  "description": "基于HTML5的localstorage的本地数据库",
+  "main": "index.js",
+  "scripts": {
+    "test": "null"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caichunbao/Local-database.git"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "caichunbao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/caichunbao/Local-database/issues"
+  },
+  "homepage": "https://github.com/caichunbao/Local-database#readme"
+}
