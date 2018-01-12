@@ -2,6 +2,8 @@
 基于html5的localstorage的本地存储数据库
 支持json数据的存储
 
+![测试图片](https://github.com/caichunbao/Local-database/raw/master/img/index.png)
+
 # API文档
 ### saveData( key , { data : data } )
 > key为键值名，data为要存储的数据
