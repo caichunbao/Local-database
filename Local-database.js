@@ -15,8 +15,10 @@
  *  getItem: function(key)
  *  removeItem: function(key)
  *  clear: function()
+ *  hasOwnProperty: 检查localStorage上是否保存了变量x，需要传入x
  *  length: int
  *  key: function(i) //读取第i个数据的名字或称为键值(从0开始计数)
+ * 
  */
 
 (function(window){
@@ -24,39 +26,54 @@
     // 核心API
     ls = window.localStorage,
 
-    // /**
-    //  * 所有的数据
-    //  * 如果本地有数据，则保存本地的数据，如果没有则创建空的数据库
-    //  */
-    // DB = ls.getItem("DB")===null ? {collectionArr: [],data:{}} : JSON.parse(ls.getItem("DB")),
+    // 所有的数据的索引
+    keyArr = ls.getItem("keyArr")===null ? [] : JSON.parse(ls.getItem("keyArr")),
     
     // 版本
     localdb_version = "1.0.0",
     
     /**
-     * 核心函数，包含一些函数和属性
+     * 核心函数，包含一些方法和属性
      * 
      * 1.保存本地数据
-     * 2.清除本地数据库数据
-     * 3.检查集合是否存在
-     * 4.
+     * 2.获取本地数据
+     * 3.删除本地数据
+     * 4.检测是否存在
+     * 5.清除所有本地数据
+     * 6....
      * 
      */ 
     localdb = function(data){
+
       var _this = this;
       
+      // 保存本地数据，保存数据索引数组(内部使用)
       _this.setItem = function(key,value){
         ls.setItem(key,value);
+        if(keyArr.indexOf(key) === -1){
+          keyArr.push(key);
+          ls.setItem("keyArr",JSON.stringify(keyArr))
+        }
       },
 
+      // 获取本地数据(内部使用)
       _this.getItem = function(key){
-        ls.getItem(key);
+        return ls.getItem(key);
       },
 
+      // 删除本地数据，删除数据索引数组(内部使用)
       _this.removeItem = function(key){
         ls.removeItem(key);
+        keyArr.removeByValue(key)
+        ls.setItem("keyArr",JSON.stringify(keyArr))
       }
 
+      // 检测是否存在(内部使用)
+      _this.hasItem = function(key){
+        return ls.hasOwnProperty(key)
+      }
+
+      // 清空本地存储(内部使用)
       _this.clear = function(){
         ls.clear();
       }
@@ -66,85 +83,79 @@
   /**
    * 核心函数原型上的属性和方法
    * 
-   * 1.myData属性(本地数据库中的所有数据)
-   * 2.创建集合、删除集合
-   * 3.获取集合的数据
-   * 4.向集合中保存数据
-   * 5.
+   * [功能]
+   *  1.对数据进行格式化之后再做操作
+   *  2.保存本地数据
+   *  3.获取本地数据
+   *  4.更新本地数据
+   *  5.删除本地数据
+   *  6....
    * 
    * 
    */
   localdb.prototype = {
     constructor: localdb,
-    getData: function(info){
-      var info = info || {};
-      if(info.collectionName){
-        return DB.data[info.collectionName]
-      }else{
-        error("请填入要获取那个集合数据的名称")
+    
+    // 所有的数组索引数组
+    getKey: function(){
+      return JSON.parse(this.getItem("keyArr"))
+    },
+
+    // 返回所有数据
+    getAllData: function(){
+      var allData = {};
+      var allKey = JSON.parse(this.getItem("keyArr"));
+      for(var i = 0 ; i < allKey.length ; i++){
+        allData[allKey[i]] = this.getItem(allKey[i])
+      }
+      return allData;
+    },
+
+    // 获取本地数据
+    getData: function(key){
+      if(this.hasItem(key)){
+        return JSON.parse(this.getItem(key))
       }
     },
-    saveData: function(name,data){
-      this.setItem(name,JSON.stringify(data.data))
-    },
-    updateData: function(data){
-      var data = data || {};
-      if(data.collectionName){
-        var collectionData = DB.data[data.collectionName].result;
-        if(collectionData.length === 0){
-          error("集合中没有数据")
-        }else{
-          for(var i = 0 ; i < collectionData.length ; i++){
-            if(collectionData[i].id === data.collectionData.id){
-              for(key in data.collectionData){
-                collectionData[i][key] = data.collectionData[key]
-              }
-            }
-          }
-        }
-        this.save()
-      }else{
-        error("请填入要修改数据的集合名称")
+
+    // 保存本地数据
+    saveData: function(key,data){
+      if(!this.hasItem(key)){
+        this.setItem(key,JSON.stringify(data.data))
       }
     },
-    deleteCollection: function(name){
-      console.log()
+
+    // 更新本地数据
+    updateData: function(key,data){
+      if(this.hasItem(key)){
+        this.setItem(key,JSON.stringify(data.data))
+      }
+    },
+
+    // 删除本地数据
+    deleteData: function(key){
+      if(this.hasItem(key)){
+        this.removeItem(key);
+      }
     }
   };
 
-  // 抛出错误
-  function error(str){
-    throw new Error(str)
-  }
 
   /**
-   * 队列的类
-   * 队列是遵循先进先出原则的一组有序的项
+   * 给数组添加一个系统方法 
+   * 删除指定的值
+   * 
+   * @param val 
    */
-  function Queue() {
-    var items = [];
-    this.enqueue = function(element) {
-        items.push(element);
-    };
-    this.dequeue = function() {
-        return items.shift();
-    };
-    this.front = function() {
-        return items[0];
-    };
-    this.isEmpty = function() {
-        return items.length == 0;
-    };
-    this.clear = function() {
-        items = [];
-    };
-    this.size = function() {
-        return items.length;
-    };
-    this.print = function() {
-        console.log(items.toString());
+
+  Array.prototype.removeByValue = function(val) {
+    for(var i=0; i<this.length; i++) {
+      if(this[i] == val) {
+        this.splice(i, 1);
+        break;
+      }
     }
-}
+  }
   
   // 对外提供接口
   window.localdb = new localdb();
