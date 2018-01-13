@@ -57,12 +57,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item,index) in arr" :key="index">
+            <tr v-for = "(item,index) in arr" :key="index">
               <td v-cloak>{{ item.key }}</td>
               <td v-cloak>{{ item.value }}</td>
             </tr>
           </tbody>
-          <tfoot class="text-center" v-if="arr.length == 0">
+          <tfoot class="text-center"  v-if = "arr.length == 0">
             <tr>
               <td colspan="2">没有数据~~</td>
             </tr>
@@ -75,8 +75,6 @@
   <script type="text/javascript" src="./Local-database.js"></script>
   <script type="text/javascript">
 
-    window.onload = function(){
-      
       var vm = new Vue({
         el: "#box",
         data: {
@@ -85,10 +83,11 @@
           key: "",
           value: ""
         },
-        mounted () {
+        created () {
           this.refresh()
         },
         methods: {
+
           save_data(){
             var _this = this;
             localdb.saveData( _this.key , {
@@ -96,6 +95,7 @@
             });
             this.refresh()
           },
+
           update_data(){
             var _this = this;
             localdb.updateData( _this.key , {
@@ -103,28 +103,29 @@
             });
             this.refresh()
           },
+
           del_data(){
             var _this = this;
-            console.log(_this.key)
             localdb.deleteData( _this.key );
             this.refresh()
           },
+
           refresh(){
             var allDataObj = localdb.getAllData();
             var tmp = {};
             this.key = "";
             this.value = "";
             this.arr = [];
-            for(key in allDataObj){
-              tmp.key = key;
-              tmp.value = allDataObj[key];
+            for(k in allDataObj){
+              tmp.key = k;
+              tmp.value = allDataObj[k];
               this.arr.push(tmp);
               tmp = {}
             }
+            
           }
         }
       });
-    }
   </script>
 </body>
 </html>

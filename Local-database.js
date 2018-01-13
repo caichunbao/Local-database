@@ -104,7 +104,7 @@
     // 返回所有数据
     getAllData: function(){
       var allData = {};
-      var allKey = JSON.parse(this.getItem("keyArr"));
+      var allKey = JSON.parse(this.getItem("keyArr")) || [];
       for(var i = 0 ; i < allKey.length ; i++){
         allData[allKey[i]] = this.getItem(allKey[i])
       }
