@@ -1,5 +1,5 @@
 # Local-database
-基于html5的localstorage的本地存储数据库，支持json数据的存储，但是由于系统的限制，存储的大小有限，存一些简单的数据还是没有问题的
+基于html5的localstorage的本地存储数据库，支持json数据的存储，但是由于系统的限制，存储的大小有限，存一些简单的数据还是没有问题的，项目地址：https://caichunbao.github.io/Local-database/
 
 ![测试图片](https://github.com/caichunbao/Local-database/raw/master/img/index.png)
 
